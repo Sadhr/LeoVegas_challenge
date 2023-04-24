@@ -1,27 +1,56 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const fetchMovies = createAsyncThunk('fetch-movies', async (apiUrl) => {
-    const response = await fetch(apiUrl)
-    return response.json()
-})
+export const fetchMovies = createAsyncThunk("fetch-movies", async (apiUrl) => {
+  console.log(apiUrl);
+  const response = await fetch(apiUrl);
+  return response.json();
+});
 
 const moviesSlice = createSlice({
-    name: 'movies',
-    initialState: { 
-        movies: [],
-        fetchStatus: '',
+  name: "movies",
+  initialState: {
+    movies: {
+      page: 0,
+      results: [],
+      total_pages: 0,
+      total_results: 0,
     },
-    reducers: {},
-    extraReducers: (builder) => {
-        builder.addCase(fetchMovies.fulfilled, (state, action) => {
-            state.movies = action.payload
-            state.fetchStatus = 'success'
-        }).addCase(fetchMovies.pending, (state) => {
-            state.fetchStatus = 'loading'
-        }).addCase(fetchMovies.rejected, (state) => {
-            state.fetchStatus = 'error'
-        })
-    }
-})
+    fetchStatus: "",
+    hasMore: true,
+    pageNumber: 1
+  },
+  reducers: {
+    incrementPageNumber: (state) => {
+      state.pageNumber += 1;
+    },
+    resetPageNumber: (state) => {
+      state.pageNumber = 1;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchMovies.fulfilled, (state, action) => {
+        const { page, results, total_pages, total_results } = action.payload;
+        if (page === 1) {
+          state.movies = { page, results, total_pages, total_results };
+        } else {
+          state.movies.page = page;
+          state.movies.total_pages = total_pages;
+          state.movies.total_results = total_results;
+          state.movies.results = [...state.movies.results, ...results];
+        }
+        state.hasMore = page < total_pages;
+        state.fetchStatus = "success";
+      })
+      .addCase(fetchMovies.pending, (state) => {
+        state.fetchStatus = "loading";
+      })
+      .addCase(fetchMovies.rejected, (state) => {
+        state.fetchStatus = "error";
+      });
+  },
+});
 
-export default moviesSlice
+export const { incrementPageNumber, resetPageNumber } = moviesSlice.actions;
+
+export default moviesSlice;
