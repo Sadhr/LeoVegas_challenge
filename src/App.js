@@ -8,8 +8,10 @@ import Header from './components/Header'
 import Movies from './components/Movies'
 import Starred from './components/Starred'
 import WatchLater from './components/WatchLater'
-import YouTubePlayer from './components/YoutubePlayer'
+
 import './app.scss'
+
+import Modal from "./components/Modal";
 
 const App = () => {
 
@@ -21,8 +23,14 @@ const App = () => {
   const [videoKey, setVideoKey] = useState()
   const [isOpen, setOpen] = useState(false)
   const navigate = useNavigate()
+
+  const [trailerClicked, setTrailerClicked] = useState(false)
+
   
-  const closeModal = () => setOpen(false)
+  const closeModal = () => {
+    setOpen(false);
+    setTrailerClicked(false);
+  };
   
   const closeCard = () => {
 
@@ -79,13 +87,13 @@ const App = () => {
       <Header searchMovies={searchMovies} searchParams={searchParams} setSearchParams={setSearchParams} />
 
       <div className="container">
-        {videoKey ? (
-          <YouTubePlayer
-            videoKey={videoKey}
-          />
-        ) : (
-          <div style={{padding: "30px"}}><h6>no trailer available. Try another movie</h6></div>
-        )}
+
+        <Modal
+          isOpen={isOpen}
+          closeModal={closeModal}
+          videoKey={videoKey}
+          trailerClicked={trailerClicked}
+        />
 
         <Routes>
           <Route path="/" element={<Movies movies={movies} viewTrailer={viewTrailer} closeCard={closeCard} />} />
