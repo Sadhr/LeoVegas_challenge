@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { incrementPageNumber } from "../data/moviesSlice";
+import debounce from "./debounce";
 
 function useInfiniteScroll() {
   const dispatch = useDispatch();
@@ -8,18 +9,7 @@ function useInfiniteScroll() {
   const { pageNumber, hasMore } = state.movies;
   
   useEffect(() => {
-    function debounce(func, wait) {
-      let timeout;
-      return function () {
-        const context = this,
-          args = arguments;
-        clearTimeout(timeout);
-        timeout = setTimeout(function () {
-          func.apply(context, args);
-        }, wait);
-      };
-    }
-
+    
     const handleScroll = () => {
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
