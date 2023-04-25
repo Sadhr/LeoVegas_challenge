@@ -3,10 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { incrementPageNumber } from "../data/moviesSlice";
 import debounce from "./debounce";
 
-function useInfiniteScroll() {
+function useInfiniteScroll(location) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const { pageNumber, hasMore } = state.movies;
+
   
   useEffect(() => {
     
@@ -22,8 +23,10 @@ function useInfiniteScroll() {
     };
 
     const debouncedHandleScroll = debounce(handleScroll, 200);
+    if(location === "/") {
 
-    window.addEventListener("scroll", debouncedHandleScroll);
+      window.addEventListener("scroll", debouncedHandleScroll);
+    }
 
     return () => window.removeEventListener("scroll", debouncedHandleScroll);
   }, [dispatch, hasMore, pageNumber]);

@@ -5,6 +5,7 @@ import {
   createSearchParams,
   useSearchParams,
   useNavigate,
+  useLocation
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "reactjs-popup/dist/index.css";
@@ -35,11 +36,12 @@ const App = () => {
   const [isOpen, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  const { pageNumber } = useInfiniteScroll();
+  const location = useLocation();
+
+  const { pageNumber } = useInfiniteScroll(location.pathname);
 
   const closeModal = () => setOpen(false);
   
-
   const closeCard = () => {};
 
   const getSearchResults = (query) => {
@@ -115,7 +117,6 @@ const App = () => {
           isOpen={isOpen}
           closeModal={closeModal}
           videoKey={videoKey}
-          // TODO NOTIFICAITON
         />
 
         <Routes>
