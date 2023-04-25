@@ -45,6 +45,7 @@ const App = () => {
   const closeCard = () => {};
 
   const getSearchResults = (query) => {
+
     if (query !== "") {
       dispatch(resetPageNumber());
       window.scrollTo(0, 0);
