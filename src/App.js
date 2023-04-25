@@ -144,12 +144,10 @@ const App = () => {
         </Routes>
 
         {movies.fetchStatus === "loading" && (
-          <div style={{ backgroundColor: "red", padding: 20 }}>LOADING</div>
+          <div className="loading">LOADING...</div>
         )}
         {!movies.hasMore && (
-          <div
-            style={{ backgroundColor: "yellow", color: "black", padding: 20 }}
-          >
+          <div className="movies_end">
             THER IS NO MORE MOVIES
           </div>
         )}
