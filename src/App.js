@@ -36,10 +36,9 @@ const App = () => {
   const navigate = useNavigate();
 
   const { pageNumber } = useInfiniteScroll();
-console.log("Show notification from reducers => ", movies.videoNotification);
-  const closeModal = () => {
-    setOpen(false);
-  };
+
+  const closeModal = () => setOpen(false);
+  
 
   const closeCard = () => {};
 
@@ -80,9 +79,9 @@ console.log("Show notification from reducers => ", movies.videoNotification);
   const viewTrailer = (movie) => {
     getMovie(movie.id);
     if (!videoKey) setOpen(true);
+    setOpen(true)
   };
   
-
   const getMovie = async (id) => {
     const URL = `${ENDPOINT}/movie/${id}?api_key=${API_KEY}&append_to_response=videos`;
 
