@@ -1,13 +1,8 @@
-import {useEffect, useRef} from "react";
+import { useEffect, useRef } from "react";
 import YouTubePlayer from "./YoutubePlayer";
 import Notification from "./Notification";
 
-export default function Modal({
-  isOpen,
-  closeModal,
-  videoKey,
-  trailerClicked,
-}) {
+export default function Modal({ isOpen, closeModal, videoKey }) {
   const playerRef = useRef(null);
 
   function handleCloseModal() {
@@ -33,10 +28,9 @@ export default function Modal({
     };
   }, []);
 
-
   return (
     <>
-      {videoKey ? (
+      {videoKey && (
         <div className="modal" style={{ display: isOpen ? "block" : "none" }}>
           <span
             className="modal_close_button btn-close"
@@ -46,10 +40,9 @@ export default function Modal({
             <YouTubePlayer videoKey={videoKey} playerRef={playerRef} />
           </div>
         </div>
-      ) : (
-          <div style={{padding: "30px"}}><h6>no trailer available. Try another movie</h6></div>
-        )}
+      )}
 
+      <Notification message="no trailer available. Try another movie" />
     </>
   );
 }
