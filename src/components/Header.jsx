@@ -1,4 +1,4 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, redirect, parsePath } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import debounce from "../utils/debounce";
@@ -7,7 +7,6 @@ import "../styles/header.scss";
 
 const Header = ({ searchMovies }) => {
   const { starredMovies } = useSelector((state) => state.starred);
-  const navigate = useNavigate();
 
   const delayedSearch = debounce((query) => {
     searchMovies(query);
@@ -16,16 +15,16 @@ const Header = ({ searchMovies }) => {
   const handleInputChange = (e) => {
     const { value } = e.target;
     window.scrollTo(0, 0);
-    delayedSearch(value);;
+    delayedSearch(value);
+    
     if (value.length === 0) {
-      navigate("/");
+      redirect("/");
       searchMovies("");
     }
   };
 
   return (
     <header>
-      {/* DELETE SEARCH MOVIES FUNCTION */}
       <Link to="/" data-testid="home" onClick={() => searchMovies("")}>
         <i className="bi bi-film" />
       </Link>
