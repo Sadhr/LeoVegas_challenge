@@ -16,15 +16,23 @@ const moviesSlice = createSlice({
     },
     fetchStatus: "",
     hasMore: true,
-    pageNumber: 1
+    pageNumber: 1,
+    videoNotification: false
   },
   reducers: {
     incrementPageNumber: (state) => {
-      state.pageNumber += 1;
+      state.pageNumber += 1
     },
     resetPageNumber: (state) => {
-      state.pageNumber = 1;
+      state.pageNumber = 1
     },
+    showNotification: (state) => {
+      state.videoNotification = true
+    },
+    hideNotification: (state) => {
+      state.videoNotification = false
+    },
+    
   },
     extraReducers: (builder) => {
       builder
@@ -50,6 +58,6 @@ const moviesSlice = createSlice({
     },
 });
 
-export const { incrementPageNumber, resetPageNumber } = moviesSlice.actions;
+export const { incrementPageNumber, resetPageNumber, showNotification, hideNotification } = moviesSlice.actions;
 
 export default moviesSlice;
