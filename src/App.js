@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "reactjs-popup/dist/index.css";
-import { fetchMovies, resetPageNumber } from "./data/moviesSlice";
+import { fetchMovies, resetPageNumber, showNotification } from "./data/moviesSlice";
 import {
   ENDPOINT_SEARCH,
   ENDPOINT_DISCOVER,
@@ -35,13 +35,10 @@ const App = () => {
   const [isOpen, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  const [trailerClicked, setTrailerClicked] = useState(false);
-
   const { pageNumber } = useInfiniteScroll();
-
+console.log("Show notification from reducers => ", movies.videoNotification);
   const closeModal = () => {
     setOpen(false);
-    setTrailerClicked(false);
   };
 
   const closeCard = () => {};
@@ -82,10 +79,9 @@ const App = () => {
 
   const viewTrailer = (movie) => {
     getMovie(movie.id);
-    setTrailerClicked(true);
     if (!videoKey) setOpen(true);
-    setOpen(true);
   };
+  
 
   const getMovie = async (id) => {
     const URL = `${ENDPOINT}/movie/${id}?api_key=${API_KEY}&append_to_response=videos`;
@@ -98,6 +94,8 @@ const App = () => {
         (vid) => vid.type === "Trailer"
       );
       setVideoKey(trailer ? trailer.key : videoData.videos.results[0].key);
+    }else {
+      dispatch(showNotification())
     }
   };
 
@@ -118,7 +116,7 @@ const App = () => {
           isOpen={isOpen}
           closeModal={closeModal}
           videoKey={videoKey}
-          trailerClicked={trailerClicked}
+          // TODO NOTIFICAITON
         />
 
         <Routes>
