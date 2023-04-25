@@ -1,4 +1,4 @@
-import { Link, NavLink, redirect, parsePath } from "react-router-dom";
+import { Link, NavLink, redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import debounce from "../utils/debounce";
@@ -16,7 +16,7 @@ const Header = ({ searchMovies }) => {
     const { value } = e.target;
     window.scrollTo(0, 0);
     delayedSearch(value);
-    
+
     if (value.length === 0) {
       redirect("/");
       searchMovies("");
@@ -50,15 +50,17 @@ const Header = ({ searchMovies }) => {
       </nav>
 
       <div className="input-group rounded">
-        <input
-          type="search"
-          data-testid="search-movies"
-          onKeyUp={handleInputChange}
-          className="form-control rounded"
-          placeholder="Search movies..."
-          aria-label="Search movies"
-          aria-describedby="search-addon"
-        />
+        <NavLink to="/" onClick={() => searchMovies('')} className="search-link">
+          <input
+            type="search"
+            data-testid="search-movies"
+            onKeyUp={handleInputChange}
+            className="form-control rounded"
+            placeholder="Search movies..."
+            aria-label="Search movies"
+            aria-describedby="search-addon"
+          />
+        </NavLink>
       </div>
     </header>
   );
