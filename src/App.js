@@ -71,7 +71,7 @@ const App = () => {
     if (searchQuery) {
       dispatch(
         fetchMovies(
-          `${ENDPOINT_SEARCH}&query=` + searchQuery + "&page=" + pageNumber
+          `${ENDPOINT_SEARCH}&query=${searchQuery}&page=${pageNumber}`
         )
       );
     } else {

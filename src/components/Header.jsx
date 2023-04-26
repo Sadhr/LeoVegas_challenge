@@ -14,13 +14,7 @@ const Header = ({ searchMovies }) => {
 
   const handleInputChange = (e) => {
     const { value } = e.target;
-    window.scrollTo(0, 0);
     delayedSearch(value);
-
-    if (value.length === 0) {
-      redirect("/");
-      searchMovies("");
-    }
   };
 
   return (
@@ -50,7 +44,7 @@ const Header = ({ searchMovies }) => {
       </nav>
 
       <div className="input-group rounded">
-        <NavLink to="/" onClick={() => searchMovies('')} className="search-link">
+        <NavLink to="/"  className="search-link">
           <input
             type="search"
             data-testid="search-movies"
